@@ -10,11 +10,11 @@ keyword,language,topic,topicColor,keywordColor,limitPages,ratioNew
 'Vögel',de,Frühling,#b3ffcc,#003311,3,0.1238925890100176
 'Igel',de,Herbst,#e67300,#331a00,3,0.1238604958380828
 'Regen',de,Herbst,#ff9933,#331a00,3,0.1224764275928808
+'Schlitten',de,Winter,#3333ff,#00004d,3,0.11741406677686483
 'Hitze',de,Sommer,#ff8c66,#330d00,3,0.116652501600006
 'Energiekrise',de,Winter,#e6e6ff,#00004d,3,0.1118976088136736
 'Freibad',de,Sommer,#e63900,#330d00,2,0.1063947535283734
 'Blätter',de,Herbst,#ffd9b3,#331a00,3,0.0981426429087383
-'Schlitten',de,Winter,#3333ff,#00004d,3,0.0948750587749212
 'Frühlingsgefühle',de,Frühling,#009933,#003311,1,0.038665094225055
 'Tropische Nächte',de,Sommer,#ff6633,#330d00,1,0.001677408091761
 'Wärmebus',de,Winter,#6666ff,#00004d,1,0.0008855110091489
