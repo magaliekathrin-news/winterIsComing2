@@ -14,8 +14,8 @@ keyword,language,topic,topicColor,keywordColor,limitPages,ratioNew
 'Energiekrise',de,Winter,#e6e6ff,#00004d,3,0.1118976088136736
 'Blätter',de,Herbst,#ffd9b3,#331a00,3,0.1111008141997002
 'Laub',de,Herbst,#804000,#331a00,2,0.1064864994465472
-'Freibad',de,Sommer,#e63900,#330d00,2,0.1063947535283734
+'Freibad',de,Sommer,#e63900,#330d00,2,0.09103609549911738
 'Frühlingsgefühle',de,Frühling,#009933,#003311,1,0.0404484318276021
-'Tropische Nächte',de,Sommer,#ff6633,#330d00,1,0.00141605183185262
+'Tropische Nächte',de,Sommer,#ff6633,#330d00,1,0.0014160518318526
 'Wärmebus',de,Winter,#6666ff,#00004d,1,0.0009026993577765
 'Tulpe',de,Frühling,#00ff55,#003311,1,0.0002217834866623
