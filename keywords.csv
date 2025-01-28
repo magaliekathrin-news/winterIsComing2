@@ -1,7 +1,7 @@
 keyword,language,topic,topicColor,keywordColor,limitPages,ratioNew
-'Schnee',de,Winter,#9999ff,#00004d,3,0.20909252869471517
+'Schnee',de,Winter,#9999ff,#00004d,3,0.2090925286947151
 'Regen',de,Herbst,#ff9933,#331a00,3,0.1795782649843068
-'Sonne',de,Frühling,#00e600,#003311,3,0.1714840384181326
+'Sonne',de,Frühling,#00e600,#003311,3,0.17345871538268542
 'Jahreswechsel',de,Herbst,#ffbf80,#00004d,3,0.1580112848569611
 'Hitze',de,Sommer,#ff8c66,#330d00,3,0.1400415182469134
 'Glatteis',de,Winter,#4d94ff,#00004d,3,0.1329660707381889
