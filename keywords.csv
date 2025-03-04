@@ -9,13 +9,13 @@ keyword,language,topic,topicColor,keywordColor,limitPages,ratioNew
 'Natur',de,Frühling,#66ff99,#003311,3,0.1360652491638823
 'Jahreswechsel',de,Herbst,#ffbf80,#00004d,3,0.1305497000330555
 'Blätter',de,Herbst,#ffd9b3,#331a00,3,0.1221150197970179
+'Freibad',de,Sommer,#e63900,#330d00,2,0.12043449056089536
 'Schlitten',de,Winter,#3333ff,#00004d,3,0.1174140667768648
 'Laub',de,Herbst,#804000,#331a00,2,0.1164141095295651
 'Igel',de,Herbst,#e67300,#331a00,3,0.1104352088964872
 'Rekordwerte',de,Sommer,#ffff1a,#330d00,2,0.1088012773112651
 'Energiekrise',de,Winter,#e6e6ff,#00004d,3,0.1000679174916225
-'Freibad',de,Sommer,#e63900,#330d00,2,0.0770398712481122
-'Wärmebus',de,Winter,#6666ff,#00004d,1,0.05558391059625483
+'Wärmebus',de,Winter,#6666ff,#00004d,1,0.0555839105962548
 'Frühlingsgefühle',de,Frühling,#009933,#003311,1,0.0342906367947827
 'Tulpe',de,Frühling,#00ff55,#003311,1,0.0012708878661843
 'Tropische Nächte',de,Sommer,#ff6633,#330d00,1,0.0012172294559258
