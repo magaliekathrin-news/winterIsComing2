@@ -12,8 +12,8 @@ keyword,language,topic,topicColor,keywordColor,limitPages,ratioNew
 'Rekordwerte',de,Sommer,#ffff1a,#330d00,3,0.1905879085887228
 'Frühlingsgefühle',de,Frühling,#009933,#003311,1,0.164266042681566
 'Laub',de,Herbst,#804000,#331a00,3,0.1489119063782835
-'Schlitten',de,Winter,#3333ff,#00004d,3,0.1450974744513874
 'Energiekrise',de,Winter,#e6e6ff,#00004d,3,0.1265576347931789
+'Schlitten',de,Winter,#3333ff,#00004d,1,0.1233332432836793
 'Jahreswechsel',de,Herbst,#ffbf80,#00004d,3,0.1040877976536445
 'Blätter',de,Herbst,#ffd9b3,#331a00,3,0.1011791644803225
 'Glatteis',de,Winter,#4d94ff,#00004d,1,0.062153598034975
