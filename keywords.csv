@@ -1,5 +1,5 @@
 keyword,language,topic,topicColor,keywordColor,limitPages,ratioNew
-'Regen',de,Herbst,#ff9933,#331a00,3,0.3669238104863812
+'Regen',de,Herbst,#ff9933,#331a00,3,0.366866603913424
 'Hitze',de,Sommer,#ff8c66,#330d00,3,0.3185714039380743
 'Sonne',de,Frühling,#00e600,#003311,3,0.237114343182777
 'Schnee',de,Winter,#9999ff,#00004d,3,0.2351143286744483
@@ -13,7 +13,7 @@ keyword,language,topic,topicColor,keywordColor,limitPages,ratioNew
 'Frühlingsgefühle',de,Frühling,#009933,#003311,1,0.164266042681566
 'Laub',de,Herbst,#804000,#331a00,3,0.1489119063782835
 'Energiekrise',de,Winter,#e6e6ff,#00004d,3,0.1265576347931789
-'Schlitten',de,Winter,#3333ff,#00004d,1,0.12015882327245829
+'Schlitten',de,Winter,#3333ff,#00004d,1,0.1201588232724582
 'Jahreswechsel',de,Herbst,#ffbf80,#00004d,3,0.1040877976536445
 'Blätter',de,Herbst,#ffd9b3,#331a00,3,0.1011791644803225
 'Glatteis',de,Winter,#4d94ff,#00004d,1,0.062153598034975
