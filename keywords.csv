@@ -9,13 +9,13 @@ keyword,language,topic,topicColor,keywordColor,limitPages,ratioNew
 'Temperaturen',de,Sommer,#ffd9cc,#330d00,3,0.2062782734058212
 'Tropische Nächte',de,Sommer,#ff6633,#330d00,2,0.204245549710937
 'Rekordwerte',de,Sommer,#ffff1a,#330d00,3,0.1905879085887228
-'Igel',de,Herbst,#e67300,#331a00,3,0.18859036950040958
+'Igel',de,Herbst,#e67300,#331a00,3,0.1885903695004095
 'Laub',de,Herbst,#804000,#331a00,3,0.1489119063782835
 'Energiekrise',de,Winter,#e6e6ff,#00004d,3,0.1265576347931789
 'Schlitten',de,Winter,#3333ff,#00004d,1,0.1201588232724582
-'Frühlingsgefühle',de,Frühling,#009933,#003311,1,0.1059884320562271
 'Jahreswechsel',de,Herbst,#ffbf80,#00004d,3,0.1040877976536445
 'Blätter',de,Herbst,#ffd9b3,#331a00,3,0.1011791644803225
+'Frühlingsgefühle',de,Frühling,#009933,#003311,1,0.09054021224779303
 'Glatteis',de,Winter,#4d94ff,#00004d,1,0.062153598034975
 'Tulpe',de,Frühling,#00ff55,#003311,1,0.0087933017120094
 'Wärmebus',de,Winter,#6666ff,#00004d,1,0.0005145187737213
