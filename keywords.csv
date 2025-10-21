@@ -9,9 +9,9 @@ keyword,language,topic,topicColor,keywordColor,limitPages,ratioNew
 'Natur',de,Frühling,#66ff99,#003311,3,0.1901138582156709
 'Schnee',de,Winter,#9999ff,#00004d,3,0.1865719703246151
 'Igel',de,Herbst,#e67300,#331a00,3,0.1663727391734548
-'Tropische Nächte',de,Sommer,#ff6633,#330d00,1,0.1480175056661519
 'Blätter',de,Herbst,#ffd9b3,#331a00,3,0.1373215059012473
 'Laub',de,Herbst,#804000,#331a00,2,0.1265760204215409
+'Tropische Nächte',de,Sommer,#ff6633,#330d00,1,0.1262649248162291
 'Energiekrise',de,Winter,#e6e6ff,#00004d,3,0.1128711581607989
 'Jahreswechsel',de,Herbst,#ffbf80,#00004d,3,0.1089125241002126
 'Schlitten',de,Winter,#3333ff,#00004d,1,0.1077070282786367
