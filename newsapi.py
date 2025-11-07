@@ -127,19 +127,21 @@ def addNewsToCollection(data):
     pubDate = parser.parse(data['published'])
     fileDate = 'news_'+pubDate.strftime('%Y_%m')+'.csv'
     if(fileDate in collectedNews):
-      if(not data['url'] in collectedNews[fileDate]):
+      if(not data['hash'] in collectedNews[fileDate]):
         if(not 'archive' in data):
            data = archiveUrl(data)
-        collectedNews[fileDate][data['url']] = data
+        collectedNews[fileDate][data['hash']] = data
         return True
     return False
 
 def storeCollection():
     global collectedNews
     print("Inside store")
-    cols = ['url','valid','domain','title','description','image','published','archive','content','quote','language','keyword']
+    #cols = ['url','valid','domain','title','description','image','published','archive','content','quote','language','keyword']
+    cols = ['published','keyword','domain','language','valid','title','description','url','image','archive','content','quote']
     for dateFile in collectedNews:
         df = pd.DataFrame.from_dict(collectedNews[dateFile], orient='index', columns=cols)
+        df.index = df['url'].apply( lambda x: hashlib.sha256(x.encode()).hexdigest()[:32])   
         df = removeDuplicates(df)
         #df.to_csv(DATA_PATH / dateFile, index=True) 
         if(not os.path.exists(DATA_PATH / 'csv')):
@@ -178,37 +180,6 @@ def findArchives(articles):
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
 
-def checkDuplicates(dict1, data2):
-    quote2 = str(data2['domain']) + ' ' + str(data2['title']) + ' ' + str(data2['description'])
-    md52 = hashlib.md5(quote2.encode('utf-8')).hexdigest() 
-    for url1 in dict1:
-        data1 = dict1[url1]
-        quote1 = str(data1['domain']) + ' ' + str(data1['title']) + ' ' + str(data1['description'])   
-        md51 = hashlib.md5(quote1.encode('utf-8')).hexdigest()
-        if(md52 == md51):
-            return True 
-        day1 = '1970-01-01'
-        if(len(str(data1['published']))>5):
-          pubDate1 = parser.parse(data1['published'])
-          day1 = pubDate1.strftime('%Y-%m-%d')
-        groupTxt1 = str(data1['domain']) +  ' ' + day1
-        group1 = hashlib.md5(groupTxt1.encode('utf-8')).hexdigest()  
-
-        day2 = '1970-01-01'
-        if(len(str(data2['published']))>5):
-          pubDate2 = parser.parse(data2['published'])
-          day2 = pubDate2.strftime('%Y-%m-%d')
-        groupTxt2 = str(data2['domain']) +  ' ' + day2
-        group2 = hashlib.md5(groupTxt2.encode('utf-8')).hexdigest()  
-        if(group1 == group2):
-          quote1 = str(data1['title']) + ' ' + str(data1['description'])
-          quote2 = str(data2['title']) + ' ' + str(data2['description'])
-          similarity = similar(quote1,quote2)
-          if(similarity>0.8):
-            return True
-    return False
-
-
 def removeDuplicates(df1):
     df1['md5'] = ''
     df1['group'] = ''
@@ -245,8 +216,6 @@ def removeDuplicates(df1):
     df3 = df3.sort_values(by=['published'], ascending=True)
     return df3
 
-
-
 def archiveUrl(data):
     #timetravelDate = datetime.datetime.strptime(data['published'], '%Y-%m-%d %H:%M:%S').strftime('%Y%m%d')
     #pubDate = datetime.datetime.fromisoformat(data['published'])
@@ -264,20 +233,28 @@ def archiveUrl(data):
         print('date parse error 2')   
     if(pubDate):
         timetravelDate = pubDate.strftime('%Y%m%d')
-    timetravelUrl = 'http://timetravel.mementoweb.org/api/json/'+timetravelDate+'/'+data['url']
+    #timetravelUrl = 'http://timetravel.mementoweb.org/api/json/'+timetravelDate+'/'+data['url']
+    timetravelUrl = 'http://archive.org/wayback/available?url='+data['url']+'&timestamp='+timetravelDate
     try:
-        page = requests.get(timetravelUrl, timeout=30)
+        print(["try request", timetravelUrl])
+        page = requests.get(timetravelUrl, timeout=60)
         if page.status_code == 200:
             content = page.content
-            #print(content)
+            print(content)
             if(content):
                 #print(content)
                 jsonData = json.loads(content)
-                if(jsonData and jsonData['mementos']):
-                    data['archive'] = jsonData['mementos']['closest']['uri'][0]
-                    if('1970-01-01T00:00:00' == data['published']):
-                        data['published'] = jsonData['mementos']['closest']['datetime']
-                #'closest'
+                if(jsonData and ('archived_snapshots' in jsonData)):
+                  snapshots = jsonData['archived_snapshots']
+                  if('closest' in snapshots):
+                    closest = snapshots['closest']
+                    if('200'==closest['status']):
+                      data['archive'] = closest['url']
+                      if('1970-01-01T00:00:00' == data['published']):
+                        ts = closest['timestamp']
+                        tsNew = ts[0:4]+'-'+ts[4:6]+'-'+ts[6:8]+'T'+ts[8:10]+':'+ts[10:12]+':'+ts[12:14]
+                        print(['new ts',ts,tsNew])
+                        data['published'] = tsNew
     except:
 #    except Exception as e:    
 #    except json.decoder.JSONDecodeError as e:    
@@ -327,9 +304,20 @@ def extractData(article, language, keyWord):
     if('publishedAt' in article):    
         published = article['publishedAt']
     content = article['content']
+    hashStr = hashlib.sha256(url.encode()).hexdigest()[:32]
     data = {'url':url, 'valid':0, 'domain':domain,'published':published, 'description':description, 'title':title, 
-            'image':image, 'content':content, 'quote':'', 'language': language, 'keyword':keyWord}
+            'image':image, 'content':content, 'quote':'', 'language': language, 'keyword':keyWord, 'hash':hashStr}
     return data  
+
+def checkKeywordInQuote(keyword, quote, case=True):
+    keywords = keyword.strip("'").split(" ")
+    if(not case):
+        keywords = keyword.strip("'").lower().split(" ")
+        quote = quote.lower()
+    allFound = True
+    for keyw in keywords:
+        allFound = allFound and (keyw in quote)    
+    return allFound
 
 def checkArticlesForKeywords(articles, keywordsDF, seldomDF, language, keyWord):
     keywordsLangDF = keywordsDF[keywordsDF['language']==language]
@@ -337,25 +325,35 @@ def checkArticlesForKeywords(articles, keywordsDF, seldomDF, language, keyWord):
     for article in articles:
       data = extractData(article, language, keyWord)
       searchQuote = str(data['title']) + " " + str(data['description'])
+      fullQuote = str(data['content'])
       foundKeywords = []
       found = False
       for index2, column2 in keywordsLangDF.iterrows(): 
          keyword = column2['keyword']
-         allFound = True
-         keywords = keyword.strip("'").split(" ")
-         for keyw in keywords:
-            allFound = allFound and (keyw in searchQuote)
+         if(keyword.strip("'") in searchQuote):
+             foundKeywords.append(keyword) 
+             found = True
+         allFound = checkKeywordInQuote(keyword, searchQuote, case=True)
+         if(allFound):
+             foundKeywords.append(keyword) 
+             found = True
+             
+         allFound = checkKeywordInQuote(keyword, searchQuote, case=False)
          if(allFound):
              foundKeywords.append(keyword) 
              found = True
       # add seldom keywords twice if
-      for index2, column2 in seldomDF.iterrows(): 
+      keywordsSeldomLangDF = seldomDF[seldomDF['language']==language]
+      for index2, column2 in keywordsSeldomLangDF.iterrows(): 
          keyword = column2['keyword']
-         allFound = True
-         keywords = keyword.strip("'").split(" ")
-         for keyw in keywords:
-            allFound = allFound and (keyw in searchQuote)
+         allFound = checkKeywordInQuote(keyword, searchQuote, case=True) 
          if(allFound):
+             foundKeywords.append(keyword) 
+             found = True
+      if(not found):
+        for index2, column2 in keywordsLangDF.iterrows(): 
+           allFound = checkKeywordInQuote(keyword, fullQuote, case=True)
+           if(allFound):
              foundKeywords.append(keyword) 
              found = True
       if(found):
@@ -380,8 +378,7 @@ def filterNewAndArchive(articles, language, keyWord):
                     collectedNews[fileDate] = df.to_dict('index')
                 else:
                     collectedNews[fileDate] = {}
-            if(not data['url'] in collectedNews[fileDate]):
-              if(not checkDuplicates(collectedNews[fileDate], data)):
+            if(not data['hash'] in collectedNews[fileDate]):
                 data = archiveUrl(data)
                 newArticles.append(data)
         if((time.time() - startTime) > 60*10):
@@ -427,17 +424,13 @@ def inqRandomNews():
       if(randomNumber<0.4): 
         print("DF3 successors")
         rndKey = keywordsDF3.sample()
-      if(randomNumber<0.1):
-        print("DF3 first")
-        rndKey = keywordsDF3.head(1).sample()
     #if FoundAny: newLimit = minimum(currPage+1,limitPage)
     #if foundNothing:  newLimit = maximum(1,random.choice(range(currPage-1,limitPage-1)))
 
     ## cheat for now!     
-    ### keywordEmptyDF = keywordsDF[keywordsDF['keyword']=="'mildem Winter'"]
+    ### keywordEmptyDF = keywordsDF[keywordsDF['keyword']=="'Gasheizung'"]
     ### rndKey = keywordEmptyDF.sample()
     ## rm in final version
-    ### rndKey = keywordsDF3.head(1).sample()
 
     #keyWord = random.choice(searchWords)
     #language = 'de'
