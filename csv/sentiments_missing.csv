@@ -1,16 +1,22 @@
 ,phrase,label,sentiment,subjectivity,language,count
-millions,millions,CARDINAL,,,en,4
-3,3,CARDINAL,,,en,2
+millions,millions,CARDINAL,,,en,5
+Tuesday,Tuesday,DATE,,,en,3
 5 degrees,5 degrees,QUANTITY,,,en,2
-2025,2025,CARDINAL,,,en,2
 recent years,recent years,DATE,,,en,2
-the summers,the summers,DATE,,,en,1
-his day,his day,DATE,,,en,1
-one,one,CARDINAL,,,en,1
-every minute,every minute,TIME,,,en,1
+this weekend,this weekend,DATE,,,en,2
+3,3,CARDINAL,,,en,2
+2025,2025,CARDINAL,,,en,2
 British,British,NORP,,,en,1
-each year,each year,DATE,,,en,1
-Asian,Asian,NORP,,,en,1
-summer,summer,DATE,,,en,1
 2021,2021,CARDINAL,,,en,1
+summer,summer,DATE,,,en,1
+Asian,Asian,NORP,,,en,1
+each year,each year,DATE,,,en,1
+weekend,weekend,DATE,,,en,1
+every minute,every minute,TIME,,,en,1
+one,one,CARDINAL,,,en,1
+warmer days,warmer days,DATE,,,en,1
+every 10 minutes,every 10 minutes,TIME,,,en,1
+his day,his day,DATE,,,en,1
+the summers,the summers,DATE,,,en,1
+this week,this week,DATE,,,en,1
 +5024 chars,+5024 chars,WORK_OF_ART,,,en,1

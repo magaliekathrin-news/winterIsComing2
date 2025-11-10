@@ -1,6 +1,7 @@
 domain,sentiment_mean,sentiment_std,subjectivity_mean,subjectivity_std,counting
 phys.org,0.10092592592592592,0.20150539414197513,0.39759259259259255,0.14656176102325835,3.0
+www.abc.net.au,0.08674362674362673,0.07175790292382377,0.3662041662041662,0.21216288457132215,3.0
 abcnews.go.com,0.0,1.0,0.0,1.0,1.0
 grist.org,0.0,1.0,0.0,1.0,1.0
-www.abc.net.au,0.0,1.0,0.0,1.0,1.0
+rollingout.com,0.0,1.0,0.0,1.0,1.0
 www.hurriyetdailynews.com,0.0,1.0,0.0,1.0,1.0

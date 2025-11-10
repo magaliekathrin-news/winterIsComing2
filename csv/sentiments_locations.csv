@@ -1,7 +1,11 @@
 ,phrase,label,sentiment,subjectivity,language,count
+Southern California,Southern California,LOC,-0.2333333333333333,0.35000000000000003,en,3
+Queensland,Queensland,GPE,0.25,0.25,en,2
+Australia,Australia,GPE,0.06428571428571428,0.29523809523809524,en,2
 Türkiye,Türkiye,GPE,0.16666666666666666,0.3888888888888889,en,2
 California,California,GPE,0.0,0.0,en,1
 U.S.,U.S.,GPE,0.17708333333333334,0.42083333333333334,en,1
 Imperial Valley,Imperial Valley,LOC,0.17708333333333334,0.42083333333333334,en,1
+San Bernardino C,San Bernardino C,GPE,-0.19999999999999998,0.3,en,1
 ISTANBUL,ISTANBUL,GPE,0.03333333333333333,0.3111111111111111,en,1
 Pacific Northwest,Pacific Northwest,LOC,0.1,0.5,en,1

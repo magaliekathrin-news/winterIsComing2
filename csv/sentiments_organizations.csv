@@ -1,7 +1,10 @@
 ,phrase,label,sentiment,subjectivity,language,count
+The Bureau of Meteorology,The Bureau of Meteorology,ORG,0.0,0.038461538461538464,en,2
+the National Weather Service,the National Weather Service,ORG,-0.19999999999999998,0.15,en,2
 Lancet Countdown,Lancet Countdown,ORG,-0.025,0.2575,en,2
 the University of Tokyo,the University of Tokyo,ORG,0.3333333333333333,0.0,en,1
 San Diego State University,San Diego State University,ORG,0.17708333333333334,0.0,en,1
+Northern Australia,Northern Australia,ORG,0.0,0.0,en,1
 the countrys weather bureau,the countrys weather bureau,ORG,0.03333333333333333,0.0,en,1
 Lancet,Lancet,ORG,0.0028409090909090884,0.0,en,1
 the Wellcome Trust,the Wellcome Trust,ORG,0.1,0.0,en,1
