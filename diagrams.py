@@ -26,8 +26,6 @@ import nltk
 nltk.download("stopwords")
 german_stop_words = list(stopwords.words('german'))
 
-print(german_stop_words)
-
 DATA_PATH = Path.cwd()
 if(not os.path.exists(DATA_PATH / 'img')):
     os.mkdir(DATA_PATH / 'img')
@@ -55,27 +53,6 @@ def getNewsDF():
     files = getNewsFiles()
     newsDF = getNewsDFbyList(files)
     return newsDF         
-
-def extractTopPercent(df1, limit=0.95, maxSize=25, counter='count'):
-  df1 = df1.sort_values(by=[counter], ascending=False)
-  df1['fraction'] = 0.0
-  df1['fracSum'] = 0.0
-  countAll = df1[counter].sum()
-  fracSum = 0.0
-  for index, column in df1.iterrows():
-      fraction = column[counter]/countAll 
-      fracSum += fraction
-      df1.loc[index,'fraction'] = fraction
-      df1.loc[index,'fracSum'] = fracSum 
-  df2 = df1[df1['fracSum']<=limit] 
-  df2 = df2.sort_values(counter, ascending=False)
-  rest = df1[df1['fraction']>limit].sum()
-  df2 = df2.head(maxSize)  #todo add to rest...
-  newRow = pd.Series(data={counter:rest, 'fraction':rest/countAll, 'fracSum':1.0}, name='Other')
-  #df2 = df2.append(newRow, ignore_index=False)
-  print(df2[counter])
-  #df2 = df2.sort_values([counter], ascending=False)
-  return df2  
 
 keywordsColorsDF = pd.read_csv(DATA_PATH / 'keywords.csv', delimiter=',')
 topicsColorsDF = keywordsColorsDF.drop_duplicates(subset=['topic'])
@@ -117,36 +94,6 @@ plot = keywordsDF.plot.pie(y='index', ax=axKeywords, colors=keywordsDF['keywordC
 plt.savefig(DATA_PATH / 'img' / 'keywords_pie_all.png', dpi=300)
 plt.close('all')
 
-
-#Persons
-personsDF = pd.DataFrame(None) 
-if(os.path.exists(DATA_PATH / 'csv' / 'sentiments_persons.csv')):
-    personsDF = pd.read_csv(DATA_PATH / 'csv' / 'sentiments_persons.csv', delimiter=',' ,index_col='phrase')
-    for sublist in personsDF.index.str.split():
-       if isinstance(sublist, list): 
-         german_stop_words += sublist 
-    personsDF = extractTopPercent(personsDF, limit=0.75, maxSize=25, counter='count')
-print(personsDF)
-
-#Organizations
-orgsDF = pd.DataFrame(None) 
-if(os.path.exists(DATA_PATH / 'csv' / 'sentiments_organizations.csv')):
-    orgsDF = pd.read_csv(DATA_PATH / 'csv' / 'sentiments_organizations.csv', delimiter=',' ,index_col='phrase')
-    for sublist in orgsDF.index.str.split():
-       if isinstance(sublist, list): 
-         german_stop_words += sublist 
-    orgsDF = extractTopPercent(orgsDF, limit=0.75, maxSize=25, counter='count')
-print(orgsDF)
-
-#Locations
-locationsDF = pd.DataFrame(None) 
-if(os.path.exists(DATA_PATH / 'csv' / 'sentiments_locations.csv')):
-    locationsDF = pd.read_csv(DATA_PATH / 'csv' / 'sentiments_locations.csv', delimiter=',' ,index_col='phrase')
-    for sublist in locationsDF.index.str.split():
-       if isinstance(sublist, list): 
-         german_stop_words += sublist 
-    locationsDF = extractTopPercent(locationsDF, limit=0.75, maxSize=25, counter='count')
-print(locationsDF)
 
 #
 bayesDF = pd.DataFrame(None) 
@@ -312,7 +259,6 @@ tfidf_vectorizer = TfidfVectorizer(
 tfidf = tfidf_vectorizer.fit_transform(newsDf.text)
 
 
-#tfidf_feature_names = tfidf_vectorizer.get_feature_names()
 tfidf_feature_names = tfidf_vectorizer.get_feature_names_out()
 
 model = NMF(
@@ -321,8 +267,10 @@ model = NMF(
     beta_loss="kullback-leibler",
     solver="mu",
     max_iter=1000,
-    alpha_W=0.1,
-    l1_ratio=0.5,
+    #alpha=0.1,
+    alpha_W=0.07,
+    alpha_H=0.05,
+    l1_ratio=0.4,
 )
 W = model.fit_transform(tfidf)
 plot_top_words(
@@ -348,13 +296,31 @@ lda = LatentDirichletAllocation(
 )
 lda.fit(tf)
 
-#tf_feature_names = tf_vectorizer.get_feature_names()
 tf_feature_names = tf_vectorizer.get_feature_names_out()
 plot_top_words(lda, tf_feature_names, n_top_words, "Topics in LDA model", "topics_lda.png")
 
 #Sentiments, Counts, Entities
 
-
+def extractTopPercent(df1, limit=0.95, maxSize=25, counter='count'):
+  df1 = df1.sort_values(by=[counter], ascending=False)
+  df1['fraction'] = 0.0
+  df1['fracSum'] = 0.0
+  countAll = df1[counter].sum()
+  fracSum = 0.0
+  for index, column in df1.iterrows():
+      fraction = column[counter]/countAll 
+      fracSum += fraction
+      df1.loc[index,'fraction'] = fraction
+      df1.loc[index,'fracSum'] = fracSum 
+  df2 = df1[df1['fracSum']<=limit] 
+  df2 = df2.sort_values(counter, ascending=False)
+  rest = df1[df1['fraction']>limit].sum()
+  df2 = df2.head(maxSize)  #todo add to rest...
+  newRow = pd.Series(data={counter:rest, 'fraction':rest/countAll, 'fracSum':1.0}, name='Other')
+  #df2 = df2.append(newRow, ignore_index=False)
+  print(df2[counter])
+  #df2 = df2.sort_values([counter], ascending=False)
+  return df2  
 
 #Domains
 domainsDF = pd.DataFrame(None) 
@@ -379,6 +345,12 @@ plt.tight_layout()
 plt.savefig(DATA_PATH / 'img' / 'domains_count.png')
 plt.close('all')
 
+#Persons
+personsDF = pd.DataFrame(None) 
+if(os.path.exists(DATA_PATH / 'csv' / 'sentiments_persons.csv')):
+    personsDF = pd.read_csv(DATA_PATH / 'csv' / 'sentiments_persons.csv', delimiter=',' ,index_col='phrase')
+    personsDF = extractTopPercent(personsDF, limit=0.75, maxSize=25, counter='count')
+print(personsDF)
 
 # Bar Persons
 y_pos = np.arange(len(personsDF['count']))
@@ -396,6 +368,12 @@ plt.tight_layout()
 plt.savefig(DATA_PATH / 'img' / 'persons_count.png')
 plt.close('all')
 
+#Organizations
+orgsDF = pd.DataFrame(None) 
+if(os.path.exists(DATA_PATH / 'csv' / 'sentiments_organizations.csv')):
+    orgsDF = pd.read_csv(DATA_PATH / 'csv' / 'sentiments_organizations.csv', delimiter=',' ,index_col='phrase')
+    orgsDF = extractTopPercent(orgsDF, limit=0.75, maxSize=25, counter='count')
+print(orgsDF)
 
 # Bar Organizations
 y_pos = np.arange(len(orgsDF['count']))
@@ -413,6 +391,12 @@ plt.tight_layout()
 plt.savefig(DATA_PATH / 'img' / 'organizations_count.png')
 plt.close('all')
 
+#Locations
+locationsDF = pd.DataFrame(None) 
+if(os.path.exists(DATA_PATH / 'csv' / 'sentiments_locations.csv')):
+    locationsDF = pd.read_csv(DATA_PATH / 'csv' / 'sentiments_locations.csv', delimiter=',' ,index_col='phrase')
+    locationsDF = extractTopPercent(locationsDF, limit=0.75, maxSize=25, counter='count')
+print(locationsDF)
 
 # Bar Locations
 y_pos = np.arange(len(locationsDF['count']))
@@ -450,22 +434,34 @@ def getDay(dateString):
 #topics per date
 indexTopics = {}
 for index, column in newsDf.iterrows():
+    #print(column['keyword'])
     dayDate = getDay(column.published)
     if(not dayDate in indexTopics):
         indexTopics[dayDate] = {}
         for index2, column2 in topicsColorsDF.iterrows():
            indexTopics[dayDate][column2['topic']] = 0
-    quote = str(column.text)
+    quote = str(column.text).lower()
     foundTopics = {}
     for index2, column2 in topicsColorsDF.iterrows():
        foundTopics[column2['topic']] = False
 
+    #found by matching Keywords chunks
     for index3, column3 in keywordsColorsDF.iterrows():
-        #if(not column3['topic'] in indexTopics[dayDate]):
-        #    indexTopic[dayDate][column3['topic']] = 0
-        keyword = column3['keyword'].strip("'") 
-        if(keyword in quote):
-            foundTopics[column3['topic']] = True
+      keyword = column3['keyword'].strip("'").lower() 
+      anyFound = True
+      for key in keyword.split(' '): 
+        if(not key in quote):
+            anyFound = False
+      foundTopics[column3['topic']] = anyFound
+
+    #use found as assigned in search
+    for index3, column3 in keywordsColorsDF.iterrows():
+      print([column3['keyword'],column['keyword']])
+      if(column3['keyword'] == column['keyword']):   
+        foundTopics[column3['topic']] = True
+        #print("fOUND") 
+
+    #print([column['keyword'], foundTopics[column3['topic']]])
     for index2, column2 in topicsColorsDF.iterrows():
         if(foundTopics[column2['topic']]):
             indexTopics[dayDate][column2['topic']] += 1
