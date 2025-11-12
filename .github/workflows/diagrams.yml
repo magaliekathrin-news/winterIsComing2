@@ -13,13 +13,13 @@ on:
 #    weekly #m h d/m m d/w 
 #    - cron:  '30 1 * * 1'
 #    daily #m h d/m m d/w 
-    - cron:  '30 2 * * *'
+    - cron:  '50 1 * * *'
    
 jobs:
   docker-run-action:
     runs-on: ubuntu-latest
     container:
-      image: credocker/crecoding:2020.0
+      image: credocker/crecoding:2024.0
       volumes:
         - ${{ github.workspace }}:/cre/python
     steps:
@@ -33,7 +33,7 @@ jobs:
       - name: cd /cre/python/
         run: (cd /cre/python/)
       - name: Install nltk
-        run: (pip3 install nltk==3.8 scikit-learn==1.0.2)
+        run: (pip3 install nltk scikit-learn)
       - name: Run diagrams
         run: (python3 diagrams.py)
       - name: Submit changes       
